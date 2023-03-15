@@ -18,3 +18,4 @@ rootProject.name = "android-common"
 
 include(":kotlin")
 include(":coroutines")
+include(":network")
