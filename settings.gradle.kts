@@ -17,6 +17,7 @@ dependencyResolutionManagement {
 rootProject.name = "android-common"
 
 include(":kotlin")
+include(":livedata")
 include(":coroutines")
 include(":coroutines-tests")
 include(":network")
