@@ -1,6 +1,5 @@
 package pro.yakuraion.androidcommon.coroutinestests
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -8,20 +7,28 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import pro.yakuraion.androidcommon.coroutines.Dispatchers
 
 /**
  * https://developer.android.com/kotlin/coroutines/test#setting-main-dispatcher
  */
 @ExperimentalCoroutinesApi
-class MainDispatcherRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+class TestDispatchersRule(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
 
+    val dispatchers: Dispatchers = Dispatchers(
+        ioDispatcher = testDispatcher,
+        computeDispatcher = testDispatcher,
+        mainDispatcher = testDispatcher,
+        unconfinedDispatcher = testDispatcher,
+    )
+
     override fun starting(description: Description) {
-        Dispatchers.setMain(testDispatcher)
+        kotlinx.coroutines.Dispatchers.setMain(testDispatcher)
     }
 
     override fun finished(description: Description) {
-        Dispatchers.resetMain()
+        kotlinx.coroutines.Dispatchers.resetMain()
     }
 }
